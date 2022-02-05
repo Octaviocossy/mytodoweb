@@ -11,30 +11,22 @@ type props = {
 type useFormProps = {
   id: string;
   title: string;
-  desc: string;
+  desc?: string;
   completed: boolean;
 };
 
 const Form = ({ setModal }: props) => {
-  const {
-    addTodo,
-    todoState,
-    resetEdit,
-    addTodoEdited,
-    addTodoToLocalStorage,
-  } = useTodo();
+  const { addTodo, todoState, resetEdit, addTodoEdited } = useTodo();
   const { edit } = todoState;
   const [btnblocker, setBtnBlocker] = useState<boolean>(true);
   const { data, handleChange } = useForm<useFormProps>({
     id: edit[0] ? edit[0].id : Math.random().toString(36).slice(2),
     title: edit[0] ? edit[0].title : '',
-    desc: edit[0] ? edit[0].desc : '',
+    desc: edit[0] && edit[0].desc,
     completed: edit[0] ? edit[0].completed : false,
   });
   useEffect(() => {
-    [data.title, data.desc].includes('')
-      ? setBtnBlocker(true)
-      : setBtnBlocker(false);
+    [data.title].includes('') ? setBtnBlocker(true) : setBtnBlocker(false);
   }, [data.title, data.desc]);
   const closeModal = () => {
     setModal((state) => !state);
@@ -50,7 +42,7 @@ const Form = ({ setModal }: props) => {
     closeModal();
   };
   return (
-    <form onSubmit={handleSubmit} className="py-6 flex flex-col md:p-6">
+    <form onSubmit={handleSubmit} className="py-6 flex flex-col sm:p-6">
       <Input
         type="text"
         styles="p-3 outline-none shadow-md rounded-md mb-3 text-gray-700 mx-5 max-w-xs sm:mx-0"

@@ -1,7 +1,7 @@
 export type Todo = {
   id: string;
   title: string;
-  desc: string;
+  desc?: string;
   completed: boolean;
 };
 
