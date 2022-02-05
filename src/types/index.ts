@@ -1,5 +1,3 @@
-import { IconType } from 'react-icons';
-
 export type Todo = {
   id: string;
   title: string;
@@ -8,8 +6,8 @@ export type Todo = {
 };
 
 export type TodoState = {
-  todoCount: number;
   todos: Todo[];
   completed: Todo[];
   pending: Todo[];
+  edit: Todo[];
 };

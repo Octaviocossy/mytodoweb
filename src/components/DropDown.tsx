@@ -2,8 +2,16 @@ import { useState } from 'react';
 import { RiMenu5Line } from 'react-icons/ri';
 import Button from '../ui/Button';
 
-const DropDown = () => {
+type props = {
+  setFilterState: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const DropDown = ({ setFilterState }: props) => {
   const [togglelist, setToggleList] = useState<boolean>(false);
+  const handleClick = (text: string): void => {
+    setFilterState(text);
+    setToggleList((state) => !state);
+  };
   return (
     <>
       <Button
@@ -18,16 +26,19 @@ const DropDown = () => {
             value="All"
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-t-md"
             type="button"
+            action={() => handleClick('all')}
           />
           <Button
             value="Completed"
             styles="border-b-2 p-2 hover:bg-gray-200"
             type="button"
+            action={() => handleClick('completed')}
           />
           <Button
             value="Pending"
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md"
             type="button"
+            action={() => handleClick('pending')}
           />
         </div>
       )}

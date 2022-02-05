@@ -9,16 +9,17 @@ import { RiAddFill } from 'react-icons/ri';
 
 const App = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const [filterstate, setFilterState] = useState<string>('all');
   return (
     <TodoProvider>
       <>
-        <DropDown />
+        <DropDown setFilterState={setFilterState} />
         <div className="flex flex-col items-center justify-center min-h-screen">
-          <TodoList />
+          <TodoList filterstate={filterstate} setModal={setModal} />
           <Button
             value={<RiAddFill />}
             type="button"
-            styles='text-4xl text-gray-700 mt-4 hover:text-yellow-500'
+            styles="text-4xl text-gray-700 mt-4 hover:text-yellow-500"
             action={() => setModal((state) => !state)}
           />
         </div>

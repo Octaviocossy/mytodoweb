@@ -1,20 +1,39 @@
-import { useContext } from 'react';
 import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
-import TodoContext from '../context/TodoContext';
+import useTodo from '../hooks/useTodo';
 import { Todo } from '../types';
 import Button from '../ui/Button';
 
 type props = {
   todo: Todo;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const TodoItem = ({ todo }: props) => {
-  const { deleteTodo } = useContext(TodoContext);
+const TodoItem = ({ todo, setModal }: props) => {
+  const { deleteTodo, toggleTodo, getATodoForEdit } = useTodo();
+  const handleForm = () => {
+    getATodoForEdit(todo);
+    setModal((state) => !state);
+  };
   return (
-    <li className="flex bg-gray-100 mb-4 p-6 shadow-lg rounded-md items-center justify-center">
+    <li
+      className="flex bg-gray-100 mb-4 p-6 shadow-lg rounded-md items-center justify-center max-w-xs sm:max-w-none m-auto"
+      onDoubleClick={handleForm}
+    >
       <div className="flex-1 ml-4">
-        <p className="text-2xl font-semibold text-gray-700">{todo.title}</p>
-        <p className="text-lg mt-2 text-gray-600">{todo.desc}</p>
+        <p
+          className={`text-2xl font-semibold text-gray-700 ${
+            todo.completed && 'line-through'
+          }`}
+        >
+          {todo.title}
+        </p>
+        <p
+          className={`text-lg mt-2 text-gray-600 ${
+            todo.completed && 'line-through'
+          }`}
+        >
+          {todo.desc}
+        </p>
       </div>
       <Button
         value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
@@ -22,6 +41,7 @@ const TodoItem = ({ todo }: props) => {
         styles={`m-4 ml-4 text-3xl text-gray-700 ${
           todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
         }`}
+        action={() => toggleTodo(todo.id)}
       />
       <Button
         value={<RiDeleteBin6Line />}
