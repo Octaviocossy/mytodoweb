@@ -1,6 +1,6 @@
 # 📃 Todo List 📃
 
-El proyecto consiste en un todo list sencillo, este cumple las funcionalidades de crear, editar, eliminar y cambiar estado del todo, como también la opción de poder filtrar por los todo que estén completados y los que no.
+El proyecto consiste en un todo list sencillo, este cumple las funcionalidades de crear, editar, eliminar y cambiar estado del todo, como también la opción de poder filtrar por los todo que estén completados y los que no. La app cuenta con localStorage para no perder los todo creados.
 
 ## Tecnologías Utilizadas 💻
 
