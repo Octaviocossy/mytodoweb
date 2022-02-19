@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RiMenu5Line } from 'react-icons/ri';
+
 import Button from '../ui/Button';
 
 type props = {
@@ -12,33 +13,34 @@ const DropDown = ({ setFilterState }: props) => {
     setFilterState(text);
     setToggleList((state) => !state);
   };
+
   return (
     <>
       <Button
-        value={<RiMenu5Line />}
+        action={() => setToggleList((state) => !state)}
         styles="bg-gray-100 absolute top-3 right-3 cursor-pointer text-2xl p-1 rounded-md shadow-md text-gray-700 hover:text-yellow-500"
         type="button"
-        action={() => setToggleList((state) => !state)}
+        value={<RiMenu5Line />}
       />
       {togglelist && (
         <div className="absolute top-12 right-12 bg-gray-100 cursor-pointer text-lg rounded-md shadow-md text-gray-700 flex flex-col">
           <Button
-            value="All"
+            action={() => handleClick('all')}
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-t-md"
             type="button"
-            action={() => handleClick('all')}
+            value="All"
           />
           <Button
-            value="Completed"
+            action={() => handleClick('completed')}
             styles="border-b-2 p-2 hover:bg-gray-200"
             type="button"
-            action={() => handleClick('completed')}
+            value="Completed"
           />
           <Button
-            value="Pending"
+            action={() => handleClick('pending')}
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md"
             type="button"
-            action={() => handleClick('pending')}
+            value="Pending"
           />
         </div>
       )}

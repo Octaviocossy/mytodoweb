@@ -1,4 +1,5 @@
 import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
+
 import useTodo from '../hooks/useTodo';
 import { Todo } from '../types';
 import Button from '../ui/Button';
@@ -14,6 +15,7 @@ const TodoItem = ({ todo, setModal }: props) => {
     getATodoForEdit(todo);
     setModal((state) => !state);
   };
+
   return (
     <li
       className="flex bg-gray-100 mb-4 p-6 shadow-lg rounded-md items-center justify-center max-w-xs sm:max-w-none m-auto"
@@ -36,18 +38,18 @@ const TodoItem = ({ todo, setModal }: props) => {
         </p>
       </div>
       <Button
-        value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
-        type="button"
+        action={() => toggleTodo(todo.id)}
         styles={`m-4 ml-4 text-3xl text-gray-700 ${
           todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
         }`}
-        action={() => toggleTodo(todo.id)}
+        type="button"
+        value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
       />
       <Button
-        value={<RiDeleteBin6Line />}
-        type="button"
-        styles="mr-4 text-2xl text-gray-700 hover:text-red-400"
         action={() => deleteTodo(todo.id)}
+        styles="mr-4 text-2xl text-gray-700 hover:text-red-400"
+        type="button"
+        value={<RiDeleteBin6Line />}
       />
     </li>
   );

@@ -7,6 +7,7 @@ const useForm = <T extends Object>(initialState: T) => {
   }: ChangeEvent<HTMLInputElement>): void => {
     setData({ ...data, [name]: value });
   };
+
   return { data, handleChange };
 };
 

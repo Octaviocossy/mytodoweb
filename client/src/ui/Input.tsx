@@ -19,13 +19,13 @@ const Input = ({
 }: InputBox) => {
   return (
     <input
-      onChange={handleChange}
-      type={type}
+      autoComplete="off"
+      className={styles}
       name={name}
       placeholder={placeholder}
-      className={styles}
-      autoComplete="off"
+      type={type}
       value={value}
+      onChange={handleChange}
     />
   );
 };

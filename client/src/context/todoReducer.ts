@@ -21,6 +21,7 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
           if (todo.id === action.payload.id) {
             todo.completed = !todo.completed;
           }
+
           return todo;
         }),
       };
@@ -47,6 +48,7 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
           if (todo.id === action.payload.id) {
             return action.payload;
           }
+
           return todo;
         }),
       };

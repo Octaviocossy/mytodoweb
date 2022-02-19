@@ -8,7 +8,7 @@ type Btn = {
 
 const Button = ({ type, value, styles, action, disabled }: Btn) => {
   return (
-    <button onClick={action} className={styles} type={type} disabled={disabled}>
+    <button className={styles} disabled={disabled} type={type} onClick={action}>
       {value}
     </button>
   );

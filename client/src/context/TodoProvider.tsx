@@ -1,5 +1,7 @@
 import { useReducer } from 'react';
+
 import { Todo, TodoState } from '../types';
+
 import TodoContext from './TodoContext';
 import todoReducer from './todoReducer';
 
@@ -42,6 +44,7 @@ const TodoProvider = ({ children }: props) => {
   const addTodoToLocalStorage = () => {
     localStorage.setItem('todoList', JSON.stringify(todoState.todos));
   };
+
   return (
     <TodoContext.Provider
       value={{

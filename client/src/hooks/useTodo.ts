@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import TodoContext from '../context/TodoContext';
 
 const useTodo = () => {
@@ -13,6 +14,7 @@ const useTodo = () => {
     addTodoToLocalStorage,
     filter,
   } = useContext(TodoContext);
+
   return {
     addTodoToLocalStorage,
     getATodoForEdit,
