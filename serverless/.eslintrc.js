@@ -12,7 +12,7 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'prettier/prettier': [
-      'error',
+      'warn',
       {
         bracketSpacing: true,
         arrowParens: 'always',
