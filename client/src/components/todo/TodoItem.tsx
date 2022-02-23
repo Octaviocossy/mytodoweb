@@ -1,15 +1,15 @@
 import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
 
-import useTodo from '../hooks/useTodo';
-import { Todo } from '../types';
-import Button from '../ui/Button';
+import useTodo from '../../hooks/useTodo';
+import Button from '../../ui/controls/Button';
+import { Todo } from '../../types';
 
-type props = {
+interface Props {
   todo: Todo;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
-const TodoItem = ({ todo, setModal }: props) => {
+const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
   const { deleteTodo, toggleTodo, getATodoForEdit } = useTodo();
   const handleForm = () => {
     getATodoForEdit(todo);

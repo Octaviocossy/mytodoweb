@@ -1,26 +1,26 @@
 import { ChangeEvent } from 'react';
 
-type InputBox = {
+interface Props {
   type: string;
   value?: string;
   placeholder?: string;
   styles?: string;
   name: string;
-  handleChange: ({ target }: ChangeEvent<HTMLInputElement>) => void;
-};
+  handleChange?: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+}
 
-const Input = ({
+const Input: React.FC<Props> = ({
   type,
   name,
   styles,
   placeholder,
   handleChange,
   value,
-}: InputBox) => {
+}) => {
   return (
     <input
       autoComplete="off"
-      className={styles}
+      className={`${styles} max-w-xs sm:max-w-md p-3 w-96 outline-none shadow-md rounded-md mb-3 text-gray-700`}
       name={name}
       placeholder={placeholder}
       type={type}

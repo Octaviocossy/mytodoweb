@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { Todo, TodoState } from '../types';
+import { Todo, TodoState } from '../../types';
 
 export type TodoContextProps = {
   getATodoForEdit: (todo: Todo) => void;

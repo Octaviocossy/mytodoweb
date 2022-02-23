@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { RiMenu5Line } from 'react-icons/ri';
 
-import Button from '../ui/Button';
+import Button from '../../ui/controls/Button';
 
-type props = {
+interface Props {
   setFilterState: React.Dispatch<React.SetStateAction<string>>;
-};
+}
 
-const DropDown = ({ setFilterState }: props) => {
+const DropDown: React.FC<Props> = ({ setFilterState }) => {
   const [togglelist, setToggleList] = useState<boolean>(false);
   const handleClick = (text: string): void => {
     setFilterState(text);
@@ -41,6 +41,11 @@ const DropDown = ({ setFilterState }: props) => {
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md"
             type="button"
             value="Pending"
+          />
+          <Button
+            styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md text-red-500"
+            type="button"
+            value="Log out"
           />
         </div>
       )}

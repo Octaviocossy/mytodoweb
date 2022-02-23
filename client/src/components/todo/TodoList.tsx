@@ -1,22 +1,22 @@
 import { useEffect } from 'react';
 
-import useTodo from '../hooks/useTodo';
+import useTodo from '../../hooks/useTodo';
 
 import TodoItem from './TodoItem';
 
-type props = {
+interface Props {
   filterstate: string;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
-const TodoList = ({ filterstate, setModal }: props) => {
+const TodoList: React.FC<Props> = ({ filterstate, setModal }) => {
   const { todoState, addTodoToLocalStorage, filter } = useTodo();
   const { todos, completed, pending } = todoState;
 
   useEffect(() => {
     addTodoToLocalStorage();
     filter();
-  }, [todoState.todos]);
+  }, [todos]);
 
   return (
     <ul className="max-w-lg w-full">

@@ -1,5 +1,6 @@
-import { Actions } from '../actions';
-import { TodoState } from '../types';
+import { TodoState } from '../../types';
+
+import { Actions } from './actions';
 
 const todoReducer = (state: TodoState, action: Actions): TodoState => {
   switch (action.type) {
