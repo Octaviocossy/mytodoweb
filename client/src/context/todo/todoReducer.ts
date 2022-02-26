@@ -1,4 +1,4 @@
-import { TodoState } from '../../types';
+import { TodoState } from '../../types/todo';
 
 import { Actions } from './actions';
 

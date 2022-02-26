@@ -1,11 +1,12 @@
 import { useReducer } from 'react';
 
-import { Todo, TodoState } from '../types';
+import { ProviderProps } from '../../types/auth';
+import { Todo, TodoState } from '../../types/todo';
 
 import TodoContext from './TodoContext';
 import todoReducer from './todoReducer';
 
-const INITIAL_STATE: TodoState = {
+const initialState: TodoState = {
   todos: localStorage.getItem('todoList')
     ? JSON.parse(localStorage.getItem('todoList') || '')
     : [],
@@ -14,12 +15,8 @@ const INITIAL_STATE: TodoState = {
   edit: [],
 };
 
-type props = {
-  children: JSX.Element | JSX.Element[];
-};
-
-const TodoProvider = ({ children }: props) => {
-  const [todoState, dispatch] = useReducer(todoReducer, INITIAL_STATE);
+const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
+  const [todoState, dispatch] = useReducer(todoReducer, initialState);
   const addTodo = (todo: Todo) => {
     dispatch({ type: 'addTodo', payload: todo });
   };

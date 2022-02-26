@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RiMenu5Line } from 'react-icons/ri';
 
+import useAuth from '../../hooks/useAuth';
 import Button from '../../ui/controls/Button';
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 const DropDown: React.FC<Props> = ({ setFilterState }) => {
   const [togglelist, setToggleList] = useState<boolean>(false);
+  const { logOut } = useAuth();
   const handleClick = (text: string): void => {
     setFilterState(text);
     setToggleList((state) => !state);
@@ -43,6 +45,7 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
             value="Pending"
           />
           <Button
+            action={() => logOut()}
             styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md text-red-500"
             type="button"
             value="Log out"

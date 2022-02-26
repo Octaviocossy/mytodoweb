@@ -4,7 +4,7 @@ import useForm from '../../hooks/useForm';
 import useTodo from '../../hooks/useTodo';
 import Button from '../../ui/controls/Button';
 import Input from '../../ui/form/Input';
-import { Todo } from '../../types';
+import { Todo } from '../../types/todo';
 
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,21 +1,31 @@
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
-import Home from './screens/Home';
+import AuthProvider from './context/auth/AuthProvider';
+import TodoProvider from './context/todo/TodoProvider';
+import PrivateRoute from './routes/PrivateRoute';
+import TodoScreen from './screens/TodoScreen';
 import Signin from './screens/Signin';
 import Signup from './screens/Signup';
-import TodoScreen from './screens/TodoScreen';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Home />} path="/" />
-        <Route element={<Signin />} path="/signin" />
-        <Route element={<Signup />} path="/signup" />
-        <Route element={<TodoScreen />} path="/todolist" />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const App = () => (
+  <AuthProvider>
+    <TodoProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Signin />} path="/" />
+          <Route element={<Signup />} path="/signup" />
+          <Route
+            element={
+              <PrivateRoute>
+                <TodoScreen />
+              </PrivateRoute>
+            }
+            path="/todolist"
+          />
+        </Routes>
+      </BrowserRouter>
+    </TodoProvider>
+  </AuthProvider>
+);
 
 export default App;

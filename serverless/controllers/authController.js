@@ -14,11 +14,26 @@ exports.authenticateUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json({ msg: 'Invalid email address' });
+    if (!user)
+      return res.status(400).json({
+        errors: [
+          {
+            msg: 'Incorrect email address.',
+            param: 'email',
+          },
+        ],
+      });
     const correctPass = await bcryptjs.compare(password, user.password);
 
     if (!correctPass)
-      return res.status(400).json({ msg: 'Incorrect Password' });
+      return res.status(400).json({
+        errors: [
+          {
+            msg: 'Incorrect Password.',
+            param: 'password',
+          },
+        ],
+      });
 
     jwtFunction(user, res);
   } catch (err) {

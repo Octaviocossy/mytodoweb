@@ -2,7 +2,7 @@ import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
 
 import useTodo from '../../hooks/useTodo';
 import Button from '../../ui/controls/Button';
-import { Todo } from '../../types';
+import { Todo } from '../../types/todo';
 
 interface Props {
   todo: Todo;

@@ -1,42 +1,51 @@
-import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FormEvent, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import Button from '../ui/controls/Button';
+import useAuthAlert from '../hooks/useAuthAlert';
+import { RegUser } from '../types/auth';
 import useForm from '../hooks/useForm';
+import useAuth from '../hooks/useAuth';
+import Button from '../ui/controls/Button';
 import Input from '../ui/form/Input';
 import Label from '../ui/form/Label';
 import Alert from '../components/auth/Alert';
 
-interface UserProps {
-  name: string;
-  email: string;
-  password: string;
-}
-
-const initialState: UserProps = {
+const initialState: RegUser = {
   name: '',
   email: '',
   password: '',
 };
 
 const Signup = () => {
-  const [alert, setAlert] = useState<boolean>(false);
-  const { data, handleChange } = useForm<UserProps>(initialState);
+  const { data, handleChange } = useForm<RegUser>(initialState);
+  const { regUser, authState, authUser } = useAuth();
+  const { filtTypeOfError, msgname, msgemail, msgpassword, resetAlert } =
+    useAuthAlert();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ([data.name, data.password, data.email].includes('')) {
-      return setAlert(true);
-    }
-    setAlert(false);
-    console.log(data);
+    resetAlert();
+    regUser(data);
   };
+
+  useEffect(() => {
+    resetAlert();
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) authUser();
+  }, []);
+
+  useEffect(() => {
+    if (authState.authenticated) navigate('/todolist');
+  }, [authState.authenticated]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
-      <p className="text-5xl font-semibold text-gray-700">Sign Up</p>
+      <p className="text-5xl font-semibold text-gray-700 ">Sign Up</p>
       <form className="flex flex-col mt-12" onSubmit={handleSubmit}>
-        {alert && <Alert title="Complete all Fields" />}
+        {msgname && <Alert title={filtTypeOfError('name')} />}
         <Label styles="text-xl" value="Name" />
         <Input
           handleChange={handleChange}
@@ -44,6 +53,7 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'text'}
         />
+        {msgemail && <Alert title={filtTypeOfError('email')} />}
         <Label styles="text-xl" value="Email" />
         <Input
           handleChange={handleChange}
@@ -51,6 +61,7 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'email'}
         />
+        {msgpassword && <Alert title={filtTypeOfError('password')} />}
         <Label styles="text-xl" value="Password" />
         <Input
           handleChange={handleChange}
@@ -65,7 +76,11 @@ const Signup = () => {
           value="Submit"
         />
       </form>
-      <Link className="text-gray-500 mt-3 hover:underline" to="/signin">
+      <Link
+        className="text-gray-500 mt-3 hover:underline"
+        to="/"
+        onClick={resetAlert}
+      >
         {'I have an account'}
       </Link>
     </div>

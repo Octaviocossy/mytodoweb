@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-import { Todo, TodoState } from '../../types';
+import { Todo, TodoState } from '../../types/todo';
 
-export type TodoContextProps = {
+interface Props {
   getATodoForEdit: (todo: Todo) => void;
   addTodoEdited: (todo: Todo) => void;
   addTodoToLocalStorage: () => void;
@@ -12,8 +12,8 @@ export type TodoContextProps = {
   resetEdit: () => void;
   filter: () => void;
   todoState: TodoState;
-};
+}
 
-const TodoContext = createContext<TodoContextProps>({} as TodoContextProps);
+const TodoContext = createContext<Props>({} as Props);
 
 export default TodoContext;

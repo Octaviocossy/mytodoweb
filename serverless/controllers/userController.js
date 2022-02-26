@@ -14,10 +14,20 @@ exports.createUser = async (req, res) => {
     let user = await User.findOne({ email });
     const salt = await bcryptjs.genSalt(10);
 
-    if (user) return res.status(400).json({ msg: 'User already exist' });
+    if (user)
+      return res.status(400).json({
+        errors: [
+          {
+            msg: 'User already exist, try with another email.',
+            param: 'email',
+          },
+        ],
+      });
+
     user = new User(req.body);
     user.password = await bcryptjs.hash(password, salt);
     await user.save();
+
     jwtFunction(user, res);
   } catch (err) {
     res.status(400).json({ msg: `${err}` });

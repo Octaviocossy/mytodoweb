@@ -20,7 +20,7 @@ const Input: React.FC<Props> = ({
   return (
     <input
       autoComplete="off"
-      className={`${styles} max-w-xs sm:max-w-md p-3 w-96 outline-none shadow-md rounded-md mb-3 text-gray-700`}
+      className={`${styles} max-w-xs sm:max-w-md p-3 w-96 outline-none shadow-md rounded-md mb-4 text-gray-700`}
       name={name}
       placeholder={placeholder}
       type={type}
