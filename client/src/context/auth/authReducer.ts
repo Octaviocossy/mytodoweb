@@ -10,9 +10,10 @@ const authReducer = (state: AuthState, action: Actions) => {
 
       return {
         ...state,
-        token: localStorage.getItem('token'),
+        msg: [],
+        loading: true,
         authenticated: true,
-        msg: null,
+        token: localStorage.getItem('token'),
       };
 
     case 'logOut':
@@ -22,6 +23,7 @@ const authReducer = (state: AuthState, action: Actions) => {
         ...state,
         user: null,
         token: null,
+        loading: false,
         authenticated: null,
       };
 
@@ -33,15 +35,17 @@ const authReducer = (state: AuthState, action: Actions) => {
         ...state,
         user: null,
         token: null,
-        authenticated: null,
+        loading: false,
         msg: action.payload,
+        authenticated: null,
       };
 
     case 'getUser':
       return {
         ...state,
-        user: action.payload,
+        loading: true,
         authenticated: true,
+        user: action.payload,
       };
 
     default:

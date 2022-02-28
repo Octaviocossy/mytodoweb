@@ -7,25 +7,27 @@ import TodoScreen from './screens/TodoScreen';
 import Signin from './screens/Signin';
 import Signup from './screens/Signup';
 
-const App = () => (
-  <AuthProvider>
-    <TodoProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Signin />} path="/" />
-          <Route element={<Signup />} path="/signup" />
-          <Route
-            element={
-              <PrivateRoute>
-                <TodoScreen />
-              </PrivateRoute>
-            }
-            path="/todolist"
-          />
-        </Routes>
-      </BrowserRouter>
-    </TodoProvider>
-  </AuthProvider>
-);
+const App = () => {
+  return (
+    <AuthProvider>
+      <TodoProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Signin />} path="/" />
+            <Route element={<Signup />} path="/signup" />
+            <Route
+              element={
+                <PrivateRoute>
+                  <TodoScreen />
+                </PrivateRoute>
+              }
+              path="/todolist"
+            />
+          </Routes>
+        </BrowserRouter>
+      </TodoProvider>
+    </AuthProvider>
+  );
+};
 
 export default App;

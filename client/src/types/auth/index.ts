@@ -1,8 +1,9 @@
 export type AuthState = {
-  token: string | null;
   authenticated: boolean | null;
-  msg: Error[] | null;
+  loading: boolean;
+  token: string | null;
   user: DB_User | null;
+  msg: Error[] | [];
 };
 
 export type ProviderProps = {

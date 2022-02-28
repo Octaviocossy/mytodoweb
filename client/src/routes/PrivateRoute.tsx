@@ -10,7 +10,7 @@ const PrivateRoute: React.FC<Props> = (props) => {
   let location = useLocation();
   const { authState } = useAuth();
 
-  if (!authState.authenticated) {
+  if (!authState.authenticated && !authState.loading) {
     return <Navigate state={{ from: location }} to="/" />;
   }
 

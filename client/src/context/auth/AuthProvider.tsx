@@ -9,8 +9,9 @@ import authReducer from './authReducer';
 
 const initialState: AuthState = {
   authenticated: null,
-  user: null,
+  loading: true,
   token: '',
+  user: null,
   msg: [],
 };
 
@@ -49,7 +50,7 @@ const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
       dispatch({ type: 'logSuccess', payload: res.data.token });
       authUser();
     } catch (err: any) {
-      dispatch({ type: 'regFailed', payload: err.response.data.errors });
+      dispatch({ type: 'logFailed', payload: err.response.data.errors });
     }
   };
 

@@ -13,12 +13,12 @@ const useAuthAlert = () => {
   const { msg } = authState;
 
   useEffect(() => {
-    if (msg !== null) setAlertContent(msg);
+    if (msg[0]) setAlertContent(msg);
   }, [msg]);
 
   useEffect(() => {
-    alertcontent.map((err) => err.param === 'name' && setMsgName(true));
     alertcontent.map((err) => err.param === 'email' && setMsgEmail(true));
+    alertcontent.map((err) => err.param === 'name' && setMsgName(true));
     alertcontent.map((err) => err.param === 'password' && setMsgPassword(true));
   }, [alertcontent]);
 
@@ -37,11 +37,11 @@ const useAuthAlert = () => {
 
   return {
     filtTypeOfError,
+    alertcontent,
+    msgpassword,
+    resetAlert,
     msgname,
     msgemail,
-    msgpassword,
-    alertcontent,
-    resetAlert,
   };
 };
 
