@@ -37,7 +37,14 @@ exports.authenticateUser = async (req, res) => {
 
     jwtFunction(user, res);
   } catch (err) {
-    res.status(400).json({ msg: `${err}` });
+    res.status(400).json({
+      errors: [
+        {
+          msg: `${err}`,
+          param: 'email',
+        },
+      ],
+    });
   }
 };
 
@@ -47,6 +54,13 @@ exports.authUser = async (req, res) => {
 
     res.json({ user });
   } catch (err) {
-    res.status(500).json({ msg: `${err}` });
+    res.status(500).json({
+      errors: [
+        {
+          msg: `${err}`,
+          param: 'email',
+        },
+      ],
+    });
   }
 };
