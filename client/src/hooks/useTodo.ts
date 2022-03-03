@@ -8,21 +8,21 @@ const useTodo = () => {
     addTodo,
     deleteTodo,
     getATodoForEdit,
-    toggleTodo,
     resetEdit,
     addTodoEdited,
-    addTodoToLocalStorage,
+    getTodos,
     filter,
+    deleteAllTodos,
   } = useContext(TodoContext);
 
   return {
-    addTodoToLocalStorage,
     getATodoForEdit,
+    deleteAllTodos,
     addTodoEdited,
     deleteTodo,
-    toggleTodo,
     resetEdit,
     todoState,
+    getTodos,
     addTodo,
     filter,
   };

@@ -1,15 +1,15 @@
 import { createContext } from 'react';
 
-import { Todo, TodoState } from '../../types/todo';
+import { DB_Todo, Todo, TodoState } from '../../types/todo';
 
 interface Props {
-  getATodoForEdit: (todo: Todo) => void;
-  addTodoEdited: (todo: Todo) => void;
-  addTodoToLocalStorage: () => void;
+  getATodoForEdit: (todo: DB_Todo) => void;
+  addTodoEdited: (todo: DB_Todo) => void;
   deleteTodo: (id: string) => void;
-  toggleTodo: (id: string) => void;
   addTodo: (todo: Todo) => void;
+  deleteAllTodos: () => void;
   resetEdit: () => void;
+  getTodos: () => void;
   filter: () => void;
   todoState: TodoState;
 }

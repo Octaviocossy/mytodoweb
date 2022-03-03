@@ -8,28 +8,23 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
       return {
         ...state,
         todos: [...state.todos, action.payload],
-        completed: state.todos.filter((todo) => todo.completed === true),
+        msg: '',
       };
     case 'deleteTodo':
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo.id !== action.payload.id),
-      };
-    case 'toggleTodo':
-      return {
-        ...state,
-        todos: state.todos.map(({ ...todo }) => {
-          if (todo.id === action.payload.id) {
-            todo.completed = !todo.completed;
-          }
-
-          return todo;
-        }),
+        todos: state.todos.filter((todo) => todo._id !== action.payload.id),
+        msg: '',
       };
     case 'getTodo':
       return {
         ...state,
         edit: [action.payload],
+      };
+    case 'getTodos':
+      return {
+        ...state,
+        todos: action.payload,
       };
     case 'filter':
       return {
@@ -45,13 +40,24 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
     case 'addTodoEdited':
       return {
         ...state,
+        msg: '',
         todos: state.todos.map(({ ...todo }) => {
-          if (todo.id === action.payload.id) {
+          if (todo._id === action.payload._id) {
             return action.payload;
           }
 
           return todo;
         }),
+      };
+    case 'deleteAllTodos':
+      return {
+        ...state,
+        todos: [],
+      };
+    case 'errorTodo':
+      return {
+        ...state,
+        msg: action.payload,
       };
     default:
       return state;

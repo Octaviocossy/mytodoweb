@@ -3,24 +3,35 @@ import { RiAddFill } from 'react-icons/ri';
 
 import DropDown from '../components/todo/DropDown';
 import TodoList from '../components/todo/TodoList';
+import useTodo from '../hooks/useTodo';
 import useAuth from '../hooks/useAuth';
 import Button from '../ui/controls/Button';
 import Modal from '../ui/display/Modal';
 import Form from '../components/todo/Form';
+import Alert from '../components/auth/Alert';
 
 const TodoScreen = () => {
-  const [modal, setModal] = useState<boolean>(false);
   const [filterstate, setFilterState] = useState<string>('all');
+  const [modal, setModal] = useState<boolean>(false);
+  const { getTodos, todoState } = useTodo();
   const { authUser } = useAuth();
 
   useEffect(() => {
     authUser();
+    getTodos();
   }, []);
 
   return (
     <>
       <DropDown setFilterState={setFilterState} />
       <div className="flex flex-col items-center justify-center min-h-screen">
+        {todoState.msg && (
+          <Alert
+            styles={'mb-6 mx-auto bg-yellow-200 border-yellow-400'}
+            textStyles={'text-yellow-800'}
+            title={todoState.msg}
+          />
+        )}
         <TodoList filterstate={filterstate} setModal={setModal} />
         <Button
           action={() => setModal((state) => !state)}

@@ -8,7 +8,7 @@ const useForm = <T extends Object>(initialState: T) => {
     setData({ ...data, [name]: value });
   };
 
-  return { data, handleChange };
+  return [data, handleChange] as const;
 };
 
 export default useForm;

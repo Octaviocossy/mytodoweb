@@ -10,11 +10,10 @@ interface Props {
 }
 
 const TodoList: React.FC<Props> = ({ filterstate, setModal }) => {
-  const { todoState, addTodoToLocalStorage, filter } = useTodo();
+  const { todoState, filter } = useTodo();
   const { todos, completed, pending } = todoState;
 
   useEffect(() => {
-    addTodoToLocalStorage();
     filter();
   }, [todos]);
 
@@ -22,15 +21,15 @@ const TodoList: React.FC<Props> = ({ filterstate, setModal }) => {
     <ul className="max-w-lg w-full">
       {filterstate === 'all' &&
         todos.map((todo) => (
-          <TodoItem key={todo.id} setModal={setModal} todo={todo} />
+          <TodoItem key={todo._id} setModal={setModal} todo={todo} />
         ))}
       {filterstate === 'completed' &&
         completed.map((todo) => (
-          <TodoItem key={todo.id} setModal={setModal} todo={todo} />
+          <TodoItem key={todo._id} setModal={setModal} todo={todo} />
         ))}
       {filterstate === 'pending' &&
         pending.map((todo) => (
-          <TodoItem key={todo.id} setModal={setModal} todo={todo} />
+          <TodoItem key={todo._id} setModal={setModal} todo={todo} />
         ))}
     </ul>
   );

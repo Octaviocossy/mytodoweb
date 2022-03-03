@@ -16,7 +16,7 @@ const initialState: LogUser = {
 };
 
 const Signin = () => {
-  const { data, handleChange } = useForm<LogUser>(initialState);
+  const [data, handleChange] = useForm<LogUser>(initialState);
   const { authState, logUser, authUser } = useAuth();
   const { filtTypeOfError, msgemail, msgpassword, resetAlert } = useAuthAlert();
   const navigate = useNavigate();

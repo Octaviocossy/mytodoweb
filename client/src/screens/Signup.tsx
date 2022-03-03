@@ -17,7 +17,7 @@ const initialState: RegUser = {
 };
 
 const Signup = () => {
-  const { data, handleChange } = useForm<RegUser>(initialState);
+  const [data, handleChange] = useForm<RegUser>(initialState);
   const { regUser, authState, authUser } = useAuth();
   const { filtTypeOfError, msgname, msgemail, msgpassword, resetAlert } =
     useAuthAlert();

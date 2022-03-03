@@ -2,18 +2,24 @@ import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
 
 import useTodo from '../../hooks/useTodo';
 import Button from '../../ui/controls/Button';
-import { Todo } from '../../types/todo';
+import { DB_Todo } from '../../types/todo';
 
 interface Props {
-  todo: Todo;
+  todo: DB_Todo;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
-  const { deleteTodo, toggleTodo, getATodoForEdit } = useTodo();
+  const { deleteTodo, getATodoForEdit, addTodoEdited } = useTodo();
+
   const handleForm = () => {
     getATodoForEdit(todo);
     setModal((state) => !state);
+  };
+
+  const switchState = (todo: DB_Todo) => {
+    todo.completed = !todo.completed;
+    addTodoEdited(todo);
   };
 
   return (
@@ -23,7 +29,7 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
     >
       <div className="flex-1 ml-4">
         <p
-          className={`text-2xl font-semibold text-gray-700 ${
+          className={`text-2xl font-semibold text-gray-700 cursor-default ${
             todo.completed && 'line-through'
           }`}
         >
@@ -38,7 +44,7 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
         </p>
       </div>
       <Button
-        action={() => toggleTodo(todo.id)}
+        action={() => switchState(todo)}
         styles={`m-4 ml-4 text-3xl text-gray-700 ${
           todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
         }`}
@@ -46,7 +52,7 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
         value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
       />
       <Button
-        action={() => deleteTodo(todo.id)}
+        action={() => deleteTodo(todo._id)}
         styles="mr-4 text-2xl text-gray-700 hover:text-red-400"
         type="button"
         value={<RiDeleteBin6Line />}
