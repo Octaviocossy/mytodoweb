@@ -14,7 +14,9 @@ exports.createTodo = async (req, res) => {
     todo.save();
     res.json(todo);
   } catch (err) {
-    res.status(500).json({ msg: `${err}` });
+    res.status(500).json({
+      msg: "Oops, an error has occurred, We couldn't create your todo!",
+    });
   }
 };
 
@@ -24,7 +26,9 @@ exports.getTodos = async (req, res) => {
 
     res.json({ todos });
   } catch (err) {
-    res.status(500).json({ msg: `${err}` });
+    res.status(500).json({
+      msg: "Oops, an error has occurred. We couldn't find your pending tasks!",
+    });
   }
 };
 
@@ -52,7 +56,9 @@ exports.updateTodo = async (req, res) => {
     });
     res.json({ todo });
   } catch (err) {
-    res.status(500).json({ msg: `${err}` });
+    res.status(500).json({
+      msg: "Oops, an error has occurred, We couldn't update your todo!",
+    });
   }
 };
 
@@ -72,6 +78,8 @@ exports.deleteTodo = async (req, res) => {
     await Todo.findOneAndRemove({ _id: req.params.id });
     res.json({ msg: 'Todo deleted successfully' });
   } catch (err) {
-    res.status(500).json({ msg: `${err}` });
+    res.status(500).json({
+      msg: "Oops, an error has occurred. We couldn't delete your todo!",
+    });
   }
 };
