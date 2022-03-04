@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiMenu5Line } from 'react-icons/ri';
 
 import useAuth from '../../hooks/useAuth';
@@ -21,6 +21,15 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
     logOut();
     deleteAllTodos();
   };
+
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setToggleList(false);
+    });
+    document.getElementById('main')?.addEventListener('click', () => {
+      setToggleList(false);
+    });
+  }, []);
 
   return (
     <>

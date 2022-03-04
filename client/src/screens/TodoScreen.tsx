@@ -6,9 +6,9 @@ import TodoList from '../components/todo/TodoList';
 import useTodo from '../hooks/useTodo';
 import useAuth from '../hooks/useAuth';
 import Button from '../ui/controls/Button';
+import Alert from '../components/auth/Alert';
 import Modal from '../ui/display/Modal';
 import Form from '../components/todo/Form';
-import Alert from '../components/auth/Alert';
 
 const TodoScreen = () => {
   const [filterstate, setFilterState] = useState<string>('all');
@@ -21,10 +21,19 @@ const TodoScreen = () => {
     getTodos();
   }, []);
 
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setModal(false);
+    });
+  }, []);
+
   return (
     <>
       <DropDown setFilterState={setFilterState} />
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div
+        className="flex flex-col items-center justify-center min-h-screen"
+        id={'main'}
+      >
         {todoState.msg && (
           <Alert
             styles={'mb-6 mx-auto bg-yellow-200 border-yellow-400'}
