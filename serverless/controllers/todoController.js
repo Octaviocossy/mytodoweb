@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const { default: mongoose } = require('mongoose');
 const Todo = require('../models/Todo');
 
 exports.createTodo = async (req, res) => {
@@ -14,9 +15,7 @@ exports.createTodo = async (req, res) => {
     todo.save();
     res.json(todo);
   } catch (err) {
-    res.status(500).json({
-      msg: "Oops, an error has occurred, We couldn't create your todo!",
-    });
+    console.log(err);
   }
 };
 
@@ -26,60 +25,78 @@ exports.getTodos = async (req, res) => {
 
     res.json({ todos });
   } catch (err) {
-    res.status(500).json({
-      msg: "Oops, an error has occurred. We couldn't find your pending tasks!",
-    });
+    console.log(err);
   }
 };
 
 exports.updateTodo = async (req, res) => {
-  try {
-    const { title, desc, completed } = req.body;
-    let todo = await Todo.findById(req.params.id);
+  const { title, desc, completed } = req.body;
 
-    if (!todo) return res.status(404).json({ msg: 'Todo not found.' });
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    let todo = await Todo.findById(req.params.id).exec();
+
+    if (!todo) {
+      const error = new Error('Todo not found');
+
+      return res.status(404).json({ error: error.message });
+    }
+
     const todoDB = await Todo.findById(todo);
 
-    if (todoDB.creator.toString() !== req.user.id)
-      return res
-        .status(401)
-        .json({ msg: "You don't have permission to edit this." });
+    if (todoDB.creator.toString() !== req.user.id) {
+      const error = new Error("You don't have permission to edit this.");
 
+      return res.status(404).json({ error: error.message });
+    }
     const newTodo = {
       title,
       desc,
       completed,
     };
 
-    todo = await Todo.findOneAndUpdate({ _id: req.params.id }, newTodo, {
-      new: true,
-    });
-    res.json({ todo });
-  } catch (err) {
-    res.status(500).json({
-      msg: "Oops, an error has occurred, We couldn't update your todo!",
-    });
+    try {
+      todo = await Todo.findOneAndUpdate({ _id: req.params.id }, newTodo, {
+        new: true,
+      });
+
+      res.json({ todo });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    const error = new Error('Id is not valid');
+
+    return res.status(404).json({ error: error.message });
   }
 };
 
 exports.deleteTodo = async (req, res) => {
-  try {
-    const todo = await Todo.findById(req.params.id);
+  if (mongoose.Types.ObjectId.isValid(req.params.id)) {
+    const todo = await Todo.findById(req.params.id).exec();
 
-    if (!todo) return res.status(404).json({ msg: 'Todo not found' });
+    if (!todo) {
+      const error = new Error('Todo not found');
+
+      return res.status(404).json({ error: error.message });
+    }
 
     const todoDB = await Todo.findById(todo);
 
-    if (todoDB.creator.toString() !== req.user.id)
-      return res
-        .status(401)
-        .json({ msg: "You don't have permission to edit this." });
+    if (todoDB.creator.toString() !== req.user.id) {
+      const error = new Error("You don't have permission to delete this.");
 
-    await Todo.findOneAndRemove({ _id: req.params.id });
-    res.json({ msg: 'Todo deleted successfully' });
-  } catch (err) {
-    res.status(500).json({
-      msg: "Oops, an error has occurred. We couldn't delete your todo!",
-    });
+      return res.status(404).json({ error: error.message });
+    }
+    try {
+      await Todo.findOneAndRemove({ _id: req.params.id });
+
+      res.json({ msg: 'Todo deleted successfully' });
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    const error = new Error('Id is not valid');
+
+    return res.status(404).json({ error: error.message });
   }
 };
