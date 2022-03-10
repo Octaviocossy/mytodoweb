@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
     res.status(401).json({
       errors: [
         {
-          msg: 'Invalid Token',
+          msg: 'Your session has expired',
           param: 'email',
         },
       ],
