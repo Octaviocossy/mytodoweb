@@ -13,10 +13,12 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
   const [togglelist, setToggleList] = useState<boolean>(false);
   const { logOut } = useAuth();
   const { deleteAllTodos } = useTodo();
+
   const handleClick = (text: string): void => {
     setFilterState(text);
     setToggleList((state) => !state);
   };
+
   const logOutFunct = () => {
     logOut();
     deleteAllTodos();

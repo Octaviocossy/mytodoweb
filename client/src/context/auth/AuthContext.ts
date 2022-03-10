@@ -6,6 +6,7 @@ interface Props {
   authState: AuthState;
   logOut: () => void;
   authUser: () => void;
+  removeAllAlerts: () => void;
   regUser: (data: RegUser) => void;
   logUser: (data: LogUser) => void;
 }

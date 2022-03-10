@@ -17,11 +17,18 @@ export type TodoState = {
   msg: string;
 };
 
-export type Error = {
-  config: Object;
-  data: Object;
-  headers: Object;
-  request: Object;
-  status: number;
-  statusText: string;
+export type Err = {
+  type: 'error';
+  error: Error;
 };
+
+export type Success<T> = {
+  type: 'success';
+  value: T;
+};
+
+export type Unauthorized = {
+  type: 'unauthorized';
+};
+
+export type Result<T> = Success<T> | Err | Unauthorized;

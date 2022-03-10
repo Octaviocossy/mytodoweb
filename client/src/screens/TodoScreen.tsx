@@ -6,7 +6,7 @@ import TodoList from '../components/todo/TodoList';
 import useTodo from '../hooks/useTodo';
 import useAuth from '../hooks/useAuth';
 import Button from '../ui/controls/Button';
-import Alert from '../components/auth/Alert';
+import Alert from '../components/Alert';
 import Modal from '../ui/display/Modal';
 import Form from '../components/todo/Form';
 
@@ -14,12 +14,16 @@ const TodoScreen = () => {
   const [filterstate, setFilterState] = useState<string>('all');
   const [modal, setModal] = useState<boolean>(false);
   const { getTodos, todoState } = useTodo();
-  const { authUser } = useAuth();
+  const { authUser, authState } = useAuth();
 
   useEffect(() => {
     authUser();
-    getTodos();
+    if (authState.authenticated) getTodos();
   }, []);
+
+  useEffect(() => {
+    if (authState.authenticated) getTodos();
+  }, [authState.authenticated]);
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
@@ -34,13 +38,7 @@ const TodoScreen = () => {
         className="flex flex-col items-center justify-center min-h-screen"
         id={'main'}
       >
-        {todoState.msg && (
-          <Alert
-            styles={'mb-6 mx-auto bg-yellow-200 border-yellow-400'}
-            textStyles={'text-yellow-800'}
-            title={todoState.msg}
-          />
-        )}
+        {todoState.msg && <Alert title={todoState.msg} />}
         <TodoList filterstate={filterstate} setModal={setModal} />
         <Button
           action={() => setModal((state) => !state)}

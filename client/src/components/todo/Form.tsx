@@ -21,7 +21,7 @@ const Form: React.FC<Props> = ({ setModal }) => {
     completed: false,
   });
 
-  const [editTodo, handleChangesEdit] = useForm<DB_Todo>(
+  const [editTodo, handleChangeEdit] = useForm<DB_Todo>(
     edit[0]
       ? edit[0]
       : {
@@ -63,7 +63,7 @@ const Form: React.FC<Props> = ({ setModal }) => {
   return (
     <form className="py-6 flex flex-col sm:p-6" onSubmit={handleSubmit}>
       <Input
-        handleChange={edit[0] ? handleChangesEdit : handleChangeCreate}
+        handleChange={edit[0] ? handleChangeEdit : handleChangeCreate}
         name="title"
         placeholder="Input a todo title"
         styles="mx-5 sm:mx-0"
@@ -71,7 +71,7 @@ const Form: React.FC<Props> = ({ setModal }) => {
         value={edit[0] ? editTodo.title : createTodo.title}
       />
       <Input
-        handleChange={edit[0] ? handleChangesEdit : handleChangeCreate}
+        handleChange={edit[0] ? handleChangeEdit : handleChangeCreate}
         name="desc"
         placeholder="Input a todo description"
         styles="mx-5 sm:mx-0"

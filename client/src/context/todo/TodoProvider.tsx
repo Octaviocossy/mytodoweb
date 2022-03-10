@@ -1,11 +1,12 @@
 import { useReducer } from 'react';
 
-import client from '../../config/axios';
-import { ProviderProps } from '../../types/auth';
 import { DB_Todo, Todo, TodoState } from '../../types/todo';
+import { ProviderProps } from '../../types/auth';
+import useAuth from '../../hooks/useAuth';
+import api from '../../api';
 
-import TodoContext from './TodoContext';
 import todoReducer from './todoReducer';
+import TodoContext from './TodoContext';
 
 const initialState: TodoState = {
   completed: [],
@@ -17,34 +18,57 @@ const initialState: TodoState = {
 
 const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
   const [todoState, dispatch] = useReducer(todoReducer, initialState);
+  const { logOut } = useAuth();
 
   const getTodos = async () => {
-    try {
-      const res = await client.get('/api/todo');
+    const res = await api.get('/api/todo/');
 
-      dispatch({ type: 'getTodos', payload: res.data.todos });
-    } catch (err: any) {
-      dispatch({ type: 'errorTodo', payload: err.response.data.msg });
+    if (res.type === 'success') {
+      dispatch({ type: 'getTodos', payload: res.value });
+
+      return;
     }
+    if (res.type === 'error') {
+      dispatch({ type: 'errorMsg', payload: res.error.message });
+
+      return;
+    }
+
+    logOut();
   };
 
   const addTodo = async (todo: Todo) => {
-    try {
-      const res = await client.post('/api/todo', todo);
+    const res = await api.post('/api/todo', todo);
 
-      dispatch({ type: 'addTodo', payload: res.data });
-    } catch (err: any) {
-      dispatch({ type: 'errorTodo', payload: err.response.data.msg });
+    if (res.type === 'success') {
+      dispatch({ type: 'addTodo', payload: res.value });
+
+      return;
     }
+    if (res.type === 'error') {
+      dispatch({ type: 'errorMsg', payload: res.error.message });
+
+      return;
+    }
+
+    logOut();
   };
 
   const deleteTodo = async (id: DB_Todo['_id']) => {
-    try {
-      await client.delete(`/api/todo/${id}`);
-      dispatch({ type: 'deleteTodo', payload: { id } });
-    } catch (err: any) {
-      dispatch({ type: 'errorTodo', payload: err.response.data.msg });
+    const res = await api.delete('/api/todo/', id);
+
+    if (res.type === 'success') {
+      dispatch({ type: 'deleteTodo', payload: res.value });
+
+      return;
     }
+    if (res.type === 'error') {
+      dispatch({ type: 'errorMsg', payload: res.error.message });
+
+      return;
+    }
+
+    logOut();
   };
 
   const getATodoForEdit = (todo: DB_Todo) => {
@@ -60,12 +84,21 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const addTodoEdited = async (todo: DB_Todo) => {
-    try {
-      await client.put(`/api/todo/${todo._id}`, todo);
-      dispatch({ type: 'addTodoEdited', payload: todo });
-    } catch (err: any) {
-      dispatch({ type: 'errorTodo', payload: err.response.data.msg });
+    const res = await api.put('/api/todo/', todo);
+
+    if (res.type === 'success') {
+      dispatch({ type: 'addTodoEdited', payload: res.value });
+
+      return;
     }
+
+    if (res.type === 'error') {
+      dispatch({ type: 'errorMsg', payload: res.error.message });
+
+      return;
+    }
+
+    logOut();
   };
 
   const deleteAllTodos = () => {

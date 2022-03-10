@@ -1,7 +1,6 @@
 import { useReducer } from 'react';
 
-import client from '../../config/axios';
-import authToken from '../../config/token';
+import api from '../../api';
 import { AuthState, LogUser, ProviderProps, RegUser } from '../../types/auth';
 
 import AuthContext from './AuthContext';
@@ -19,49 +18,55 @@ const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   const authUser = async () => {
-    const token = localStorage.getItem('token');
+    const res = await api.auth('/api/auth');
 
-    if (token) authToken(token);
+    if (res.type === 'success') {
+      dispatch({ type: 'getUser', payload: res.value });
 
-    try {
-      const res = await client.get('/api/auth');
-
-      dispatch({ type: 'getUser', payload: res.data.user });
-    } catch (err: any) {
-      dispatch({ type: 'logFailed', payload: err.response.data.errors });
+      return;
     }
+
+    dispatch({ type: 'logFailed', payload: res.error });
+    logOut();
   };
 
   const regUser = async (user: RegUser) => {
-    try {
-      const res = await client.post('/api/users', user);
+    const res = await api.signInOrUp('/api/users', user);
 
-      dispatch({ type: 'regSuccess', payload: res.data.token });
-      authUser();
-    } catch (err: any) {
-      dispatch({ type: 'regFailed', payload: err.response.data.errors });
+    if (res.type === 'success') {
+      dispatch({ type: 'regSuccess', payload: res.value });
+
+      return;
     }
+
+    dispatch({ type: 'regFailed', payload: res.error });
   };
 
   const logUser = async (user: LogUser) => {
-    try {
-      const res = await client.post('/api/auth', user);
+    const res = await api.signInOrUp('/api/auth', user);
 
-      dispatch({ type: 'logSuccess', payload: res.data.token });
-      authUser();
-    } catch (err: any) {
-      dispatch({ type: 'logFailed', payload: err.response.data.errors });
+    if (res.type === 'success') {
+      dispatch({ type: 'regSuccess', payload: res.value });
+
+      return;
     }
+
+    dispatch({ type: 'logFailed', payload: res.error });
   };
 
   const logOut = () => {
     dispatch({ type: 'logOut' });
   };
 
+  const removeAllAlerts = () => {
+    dispatch({ type: 'removeAllAlerts' });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         authState: state,
+        removeAllAlerts,
         authUser,
         regUser,
         logUser,

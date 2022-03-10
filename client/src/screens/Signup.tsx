@@ -8,7 +8,7 @@ import useAuth from '../hooks/useAuth';
 import Button from '../ui/controls/Button';
 import Input from '../ui/form/Input';
 import Label from '../ui/form/Label';
-import Alert from '../components/auth/Alert';
+import Alert from '../components/Alert';
 
 const initialState: RegUser = {
   name: '',
@@ -18,7 +18,7 @@ const initialState: RegUser = {
 
 const Signup = () => {
   const [data, handleChange] = useForm<RegUser>(initialState);
-  const { regUser, authState, authUser } = useAuth();
+  const { regUser, authState, authUser, removeAllAlerts } = useAuth();
   const { filtTypeOfError, msgname, msgemail, msgpassword, resetAlert } =
     useAuthAlert();
   const navigate = useNavigate();
@@ -28,10 +28,6 @@ const Signup = () => {
     resetAlert();
     regUser(data);
   };
-
-  useEffect(() => {
-    resetAlert();
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('token')) authUser();
@@ -45,7 +41,7 @@ const Signup = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <p className="text-5xl font-semibold text-gray-700 ">Sign Up</p>
       <form className="flex flex-col mt-12" onSubmit={handleSubmit}>
-        {msgname && <Alert title={filtTypeOfError('name')} />}
+        {msgname && <Alert title={filtTypeOfError('name')} type={'alert'} />}
         <Label styles="text-xl" value="Name" />
         <Input
           handleChange={handleChange}
@@ -53,7 +49,7 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'text'}
         />
-        {msgemail && <Alert title={filtTypeOfError('email')} />}
+        {msgemail && <Alert title={filtTypeOfError('email')} type={'alert'} />}
         <Label styles="text-xl" value="Email" />
         <Input
           handleChange={handleChange}
@@ -61,7 +57,9 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'email'}
         />
-        {msgpassword && <Alert title={filtTypeOfError('password')} />}
+        {msgpassword && (
+          <Alert title={filtTypeOfError('password')} type={'alert'} />
+        )}
         <Label styles="text-xl" value="Password" />
         <Input
           handleChange={handleChange}
@@ -79,7 +77,7 @@ const Signup = () => {
       <Link
         className="text-gray-500 mt-3 hover:underline"
         to="/"
-        onClick={resetAlert}
+        onClick={removeAllAlerts}
       >
         {'I have an account'}
       </Link>

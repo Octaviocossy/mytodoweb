@@ -22,10 +22,8 @@ export type LogUser = {
 };
 
 export type Error = {
-  value: string;
   msg: string;
   param: string;
-  location: string;
 };
 
 export type DB_User = RegUser & {
@@ -33,3 +31,15 @@ export type DB_User = RegUser & {
   __v: number;
   _id: string;
 };
+
+export type AuthError = {
+  type: 'error';
+  error: Error[];
+};
+
+export type AuthSuccess<T> = {
+  type: 'success';
+  value: T;
+};
+
+export type AuthResult<T> = AuthSuccess<T> | AuthError;

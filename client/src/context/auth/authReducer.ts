@@ -46,6 +46,13 @@ const authReducer = (state: AuthState, action: Actions) => {
         loading: true,
         authenticated: true,
         user: action.payload,
+        token: localStorage.getItem('token'),
+      };
+
+    case 'removeAllAlerts':
+      return {
+        ...state,
+        msg: [],
       };
 
     default:

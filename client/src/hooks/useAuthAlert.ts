@@ -37,11 +37,12 @@ const useAuthAlert = () => {
 
   return {
     filtTypeOfError,
+    setAlertContent,
     alertcontent,
     msgpassword,
     resetAlert,
-    msgname,
     msgemail,
+    msgname,
   };
 };
 

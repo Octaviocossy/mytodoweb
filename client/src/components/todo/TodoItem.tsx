@@ -36,7 +36,7 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
           {todo.title}
         </p>
         <p
-          className={`text-lg mt-2 text-gray-600 ${
+          className={`text-lg mt-2 text-gray-600 cursor-default ${
             todo.completed && 'line-through'
           }`}
         >

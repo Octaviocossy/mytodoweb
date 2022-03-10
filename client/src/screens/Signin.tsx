@@ -8,7 +8,7 @@ import useAuth from '../hooks/useAuth';
 import Button from '../ui/controls/Button';
 import Input from '../ui/form/Input';
 import Label from '../ui/form/Label';
-import Alert from '../components/auth/Alert';
+import Alert from '../components/Alert';
 
 const initialState: LogUser = {
   email: '',
@@ -17,7 +17,7 @@ const initialState: LogUser = {
 
 const Signin = () => {
   const [data, handleChange] = useForm<LogUser>(initialState);
-  const { authState, logUser, authUser } = useAuth();
+  const { authState, logUser, authUser, removeAllAlerts } = useAuth();
   const { filtTypeOfError, msgemail, msgpassword, resetAlert } = useAuthAlert();
   const navigate = useNavigate();
 
@@ -26,10 +26,6 @@ const Signin = () => {
     resetAlert();
     logUser(data);
   };
-
-  useEffect(() => {
-    resetAlert();
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('token')) authUser();
@@ -43,7 +39,7 @@ const Signin = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <p className="text-5xl font-semibold text-gray-700">Sign In</p>
       <form className="flex flex-col mt-12" onSubmit={handleSubmit}>
-        {msgemail && <Alert title={filtTypeOfError('email')} />}
+        {msgemail && <Alert title={filtTypeOfError('email')} type={'alert'} />}
         <Label styles="text-xl" value="Email" />
         <Input
           handleChange={handleChange}
@@ -51,7 +47,9 @@ const Signin = () => {
           styles={'bg-gray-100 my-3'}
           type={'email'}
         />
-        {msgpassword && <Alert title={filtTypeOfError('password')} />}
+        {msgpassword && (
+          <Alert title={filtTypeOfError('password')} type={'alert'} />
+        )}
         <Label styles="text-xl" value="Password" />
         <Input
           handleChange={handleChange}
@@ -65,7 +63,11 @@ const Signin = () => {
           value="Submit"
         />
       </form>
-      <Link className="text-gray-500 mt-3 hover:underline" to="/signup">
+      <Link
+        className="text-gray-500 mt-3 hover:underline"
+        to="/signup"
+        onClick={removeAllAlerts}
+      >
         {'I do not have an account'}
       </Link>
     </div>

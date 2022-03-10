@@ -13,7 +13,7 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
     case 'deleteTodo':
       return {
         ...state,
-        todos: state.todos.filter((todo) => todo._id !== action.payload.id),
+        todos: state.todos.filter((todo) => todo._id !== action.payload),
         msg: '',
       };
     case 'getTodo':
@@ -54,7 +54,7 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
         ...state,
         todos: [],
       };
-    case 'errorTodo':
+    case 'errorMsg':
       return {
         ...state,
         msg: action.payload,
