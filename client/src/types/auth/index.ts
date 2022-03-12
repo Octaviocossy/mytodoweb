@@ -21,15 +21,15 @@ export type LogUser = {
   password: string;
 };
 
-export type Error = {
-  msg: string;
-  param: string;
-};
-
 export type DB_User = RegUser & {
   date: string;
   __v: number;
   _id: string;
+};
+
+export type Error = {
+  msg: string;
+  param: string;
 };
 
 export type AuthError = {

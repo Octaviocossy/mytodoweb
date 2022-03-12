@@ -1,3 +1,5 @@
+import { Error as AuthError } from '../auth';
+
 export type Todo = {
   title: string;
   desc?: string;
@@ -29,6 +31,7 @@ export type Success<T> = {
 
 export type Unauthorized = {
   type: 'unauthorized';
+  error: AuthError[];
 };
 
 export type Result<T> = Success<T> | Err | Unauthorized;

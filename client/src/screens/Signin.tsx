@@ -18,11 +18,47 @@ const initialState: LogUser = {
 const Signin = () => {
   const [data, handleChange] = useForm<LogUser>(initialState);
   const { authState, logUser, authUser, removeAllAlerts } = useAuth();
-  const { filtTypeOfError, msgemail, msgpassword, resetAlert } = useAuthAlert();
+  const {
+    resetfieldError,
+    fieldError,
+    msgdefault,
+    resetAlert,
+    msgpassword,
+    setAlertContent,
+    filtTypeOfError,
+  } = useAuthAlert();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    resetAlert();
+    resetfieldError();
+
+    if ([data.email].includes('')) {
+      setAlertContent((alert) => [
+        ...alert,
+        {
+          msg: 'Enter a valid email address.',
+          param: 'default',
+        },
+      ]);
+      fieldError['default'] = true;
+    }
+
+    if (data.password.length < 6) {
+      setAlertContent((alert) => [
+        ...alert,
+        {
+          msg: 'The password must have more than 6 characters',
+          param: 'password',
+        },
+      ]);
+      fieldError['password'] = true;
+    }
+
+    if (fieldError.default === true || fieldError.password === true) return;
+
+    resetfieldError();
     resetAlert();
     logUser(data);
   };
@@ -39,7 +75,9 @@ const Signin = () => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <p className="text-5xl font-semibold text-gray-700">Sign In</p>
       <form className="flex flex-col mt-12" onSubmit={handleSubmit}>
-        {msgemail && <Alert title={filtTypeOfError('email')} type={'alert'} />}
+        {msgdefault && (
+          <Alert title={filtTypeOfError('default')} type={'alert'} />
+        )}
         <Label styles="text-xl" value="Email" />
         <Input
           handleChange={handleChange}

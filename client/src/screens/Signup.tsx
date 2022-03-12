@@ -19,12 +19,64 @@ const initialState: RegUser = {
 const Signup = () => {
   const [data, handleChange] = useForm<RegUser>(initialState);
   const { regUser, authState, authUser, removeAllAlerts } = useAuth();
-  const { filtTypeOfError, msgname, msgemail, msgpassword, resetAlert } =
-    useAuthAlert();
+  const {
+    msgname,
+    msgdefault,
+    resetAlert,
+    fieldError,
+    msgpassword,
+    setAlertContent,
+    filtTypeOfError,
+    resetfieldError,
+  } = useAuthAlert();
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    resetAlert();
+    resetfieldError();
+
+    if ([data.name].includes('')) {
+      setAlertContent((alert) => [
+        ...alert,
+        {
+          msg: 'The name is obligatory',
+          param: 'name',
+        },
+      ]);
+      fieldError['name'] = true;
+    }
+
+    if ([data.email].includes('')) {
+      setAlertContent((alert) => [
+        ...alert,
+        {
+          msg: 'Enter a valid email address.',
+          param: 'default',
+        },
+      ]);
+      fieldError['default'] = true;
+    }
+
+    if (data.password.length < 6) {
+      setAlertContent((alert) => [
+        ...alert,
+        {
+          msg: 'The password must have more than 6 characters',
+          param: 'password',
+        },
+      ]);
+      fieldError['password'] = true;
+    }
+
+    if (
+      fieldError.password === true ||
+      fieldError.default === true ||
+      fieldError.name === true
+    )
+      return;
+
+    resetfieldError();
     resetAlert();
     regUser(data);
   };
@@ -49,7 +101,9 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'text'}
         />
-        {msgemail && <Alert title={filtTypeOfError('email')} type={'alert'} />}
+        {msgdefault && (
+          <Alert title={filtTypeOfError('default')} type={'alert'} />
+        )}
         <Label styles="text-xl" value="Email" />
         <Input
           handleChange={handleChange}

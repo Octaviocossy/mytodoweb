@@ -18,10 +18,10 @@ const initialState: TodoState = {
 
 const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
   const [todoState, dispatch] = useReducer(todoReducer, initialState);
-  const { logOut } = useAuth();
+  const { logOut, authAlert } = useAuth();
 
   const getTodos = async () => {
-    const res = await api.get('/api/todo/');
+    const res = await api.get('/api/todo');
 
     if (res.type === 'success') {
       dispatch({ type: 'getTodos', payload: res.value });
@@ -33,6 +33,8 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
 
       return;
     }
+
+    authAlert(res.error);
 
     logOut();
   };
@@ -51,6 +53,8 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
       return;
     }
 
+    authAlert(res.error);
+
     logOut();
   };
 
@@ -67,6 +71,8 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
 
       return;
     }
+
+    authAlert(res.error);
 
     logOut();
   };
@@ -97,6 +103,8 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
 
       return;
     }
+
+    authAlert(res.error);
 
     logOut();
   };

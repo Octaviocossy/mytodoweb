@@ -1,14 +1,15 @@
 import { createContext } from 'react';
 
-import { AuthState, LogUser, RegUser } from '../../types/auth';
+import { AuthState, Error, LogUser, RegUser } from '../../types/auth';
 
 interface Props {
   authState: AuthState;
   logOut: () => void;
-  authUser: () => void;
-  removeAllAlerts: () => void;
   regUser: (data: RegUser) => void;
   logUser: (data: LogUser) => void;
+  authUser: () => void;
+  authAlert: (alert: Error[]) => void;
+  removeAllAlerts: () => void;
 }
 
 const AuthContext = createContext<Props>({} as Props);

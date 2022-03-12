@@ -55,6 +55,11 @@ const authReducer = (state: AuthState, action: Actions) => {
         msg: [],
       };
 
+    case 'authAlert':
+      return {
+        ...state,
+        msg: action.payload,
+      };
     default:
       return state;
   }

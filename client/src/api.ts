@@ -11,8 +11,8 @@ const api = {
     });
     let res = await call.json();
 
-    if (res.errors) {
-      return { type: 'unauthorized' };
+    if (res.auth) {
+      return { type: 'unauthorized', error: res.auth };
     }
 
     if (res.error) {
@@ -32,8 +32,8 @@ const api = {
     });
     let res = await call.json();
 
-    if (res.errors) {
-      return { type: 'unauthorized' };
+    if (res.auth) {
+      return { type: 'unauthorized', error: res.auth };
     }
 
     if (res.error) {
@@ -56,8 +56,8 @@ const api = {
     );
     let res = await call.json();
 
-    if (res.errors) {
-      return { type: 'unauthorized' };
+    if (res.auth) {
+      return { type: 'unauthorized', error: res.auth };
     }
 
     if (res.error) {
@@ -79,8 +79,8 @@ const api = {
     });
     let res = await call.json();
 
-    if (res.errors) {
-      return { type: 'unauthorized' };
+    if (res.auth) {
+      return { type: 'unauthorized', error: res.auth };
     }
 
     if (res.error) {
@@ -100,10 +100,10 @@ const api = {
 
     let res = await call.json();
 
-    if (res.errors) {
+    if (res.auth) {
       return {
         type: 'error',
-        error: res.errors,
+        error: res.auth,
       };
     }
 

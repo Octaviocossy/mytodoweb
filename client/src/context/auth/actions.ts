@@ -6,5 +6,6 @@ export type Actions =
   | { type: 'getUser'; payload: DB_User }
   | { type: 'regSuccess'; payload: string }
   | { type: 'logSuccess'; payload: string }
+  | { type: 'authAlert'; payload: Error[] }
   | { type: 'regFailed'; payload: Error[] }
   | { type: 'logFailed'; payload: Error[] };

@@ -53,6 +53,8 @@ const todoReducer = (state: TodoState, action: Actions): TodoState => {
       return {
         ...state,
         todos: [],
+        pending: [],
+        completed: [],
       };
     case 'errorMsg':
       return {

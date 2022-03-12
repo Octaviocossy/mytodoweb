@@ -1,7 +1,13 @@
 import { useReducer } from 'react';
 
 import api from '../../api';
-import { AuthState, LogUser, ProviderProps, RegUser } from '../../types/auth';
+import {
+  AuthState,
+  Error,
+  LogUser,
+  ProviderProps,
+  RegUser,
+} from '../../types/auth';
 
 import AuthContext from './AuthContext';
 import authReducer from './authReducer';
@@ -62,11 +68,16 @@ const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
     dispatch({ type: 'removeAllAlerts' });
   };
 
+  const authAlert = (alert: Error[]) => {
+    dispatch({ type: 'authAlert', payload: alert });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         authState: state,
         removeAllAlerts,
+        authAlert,
         authUser,
         regUser,
         logUser,

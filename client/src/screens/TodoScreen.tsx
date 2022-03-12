@@ -5,24 +5,28 @@ import DropDown from '../components/todo/DropDown';
 import TodoList from '../components/todo/TodoList';
 import useTodo from '../hooks/useTodo';
 import useAuth from '../hooks/useAuth';
-import Button from '../ui/controls/Button';
 import Alert from '../components/Alert';
 import Modal from '../ui/display/Modal';
 import Form from '../components/todo/Form';
 
 const TodoScreen = () => {
   const [filterstate, setFilterState] = useState<string>('all');
+  const [spinnx, setSpinnX] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const { getTodos, todoState } = useTodo();
   const { authUser, authState } = useAuth();
 
   useEffect(() => {
     authUser();
-    if (authState.authenticated) getTodos();
   }, []);
 
   useEffect(() => {
-    if (authState.authenticated) getTodos();
+    if (authState.authenticated) {
+      (async () => {
+        await getTodos();
+        setSpinnX(true);
+      })();
+    }
   }, [authState.authenticated]);
 
   useEffect(() => {
@@ -40,12 +44,13 @@ const TodoScreen = () => {
       >
         {todoState.msg && <Alert title={todoState.msg} />}
         <TodoList filterstate={filterstate} setModal={setModal} />
-        <Button
-          action={() => setModal((state) => !state)}
-          styles="text-4xl text-gray-700 mt-4 hover:text-yellow-500"
+        <button
+          className="text-4xl text-gray-700 mt-4 hover:text-yellow-500 outline-none"
           type="button"
-          value={<RiAddFill />}
-        />
+          onClick={() => setModal((state) => !state)}
+        >
+          <RiAddFill className={`${!spinnx && 'animate-spin text-pink-500'}`} />
+        </button>
       </div>
       {modal && <Modal component={<Form setModal={setModal} />} />}
     </>
