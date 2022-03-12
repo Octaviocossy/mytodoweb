@@ -19,7 +19,7 @@ exports.authenticateUser = async (req, res) => {
         errors: [
           {
             msg: 'Incorrect email address.',
-            param: 'email',
+            param: 'default',
           },
         ],
       });
@@ -41,7 +41,7 @@ exports.authenticateUser = async (req, res) => {
       errors: [
         {
           msg: `${err}`,
-          param: 'email',
+          param: 'default',
         },
       ],
     });
@@ -58,7 +58,7 @@ exports.authUser = async (req, res) => {
       errors: [
         {
           msg: `${err}`,
-          param: 'email',
+          param: 'default',
         },
       ],
     });

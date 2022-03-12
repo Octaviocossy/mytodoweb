@@ -5,10 +5,10 @@ module.exports = (req, res, next) => {
 
   if (!token)
     return res.status(401).json({
-      errors: [
+      auth: [
         {
           msg: 'Invalid Token',
-          param: 'email',
+          param: 'default',
         },
       ],
     });
@@ -20,10 +20,10 @@ module.exports = (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json({
-      errors: [
+      auth: [
         {
           msg: 'Your session has expired',
-          param: 'email',
+          param: 'default',
         },
       ],
     });

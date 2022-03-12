@@ -19,7 +19,7 @@ exports.createUser = async (req, res) => {
         errors: [
           {
             msg: 'User already exist, try with another email.',
-            param: 'email',
+            param: 'default',
           },
         ],
       });
@@ -34,7 +34,7 @@ exports.createUser = async (req, res) => {
       errors: [
         {
           msg: `${err}`,
-          param: 'email',
+          param: 'default',
         },
       ],
     });
