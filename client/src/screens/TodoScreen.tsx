@@ -44,6 +44,7 @@ const TodoScreen = () => {
         {filterstate === 'all' && (
           <button
             className="text-4xl text-gray-700 mt-4 mb-14 hover:text-yellow-500 outline-none"
+            disabled={!spinnx && true}
             type="button"
             onClick={() => setModal((state) => !state)}
           >
