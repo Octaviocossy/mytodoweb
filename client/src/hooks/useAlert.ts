@@ -19,7 +19,13 @@ const useAuthAlert = () => {
   const { msg } = authState;
 
   useEffect(() => {
-    if (msg[0]) setAlertContent(msg);
+    if (msg[0]) {
+      setAlertContent(
+        msg.filter((msg) =>
+          msg.param === 'email' ? (msg.param = 'default') : msg.param
+        )
+      );
+    }
   }, [msg]);
 
   useEffect(() => {
