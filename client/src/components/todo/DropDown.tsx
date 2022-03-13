@@ -3,7 +3,6 @@ import { RiMenu5Line } from 'react-icons/ri';
 
 import useAuth from '../../hooks/useAuth';
 import useTodo from '../../hooks/useTodo';
-import Button from '../../ui/controls/Button';
 
 interface Props {
   setFilterState: React.Dispatch<React.SetStateAction<string>>;
@@ -35,48 +34,53 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
 
   return (
     <>
-      <Button
-        action={() => setToggleList((state) => !state)}
-        styles="bg-gray-100 absolute top-3 right-3 cursor-pointer text-2xl p-1 rounded-md shadow-md text-gray-700 hover:text-yellow-500"
+      <button
+        className="bg-gray-100 absolute top-3 right-3 cursor-pointer text-2xl p-1 rounded-md shadow-md text-gray-700 hover:text-yellow-500"
         type="button"
-        value={<RiMenu5Line />}
-      />
+        onClick={() => setToggleList((state) => !state)}
+      >
+        <RiMenu5Line />
+      </button>
       {togglelist && (
         <div className="absolute top-12 right-12 bg-gray-100 cursor-pointer text-lg rounded-md shadow-md text-gray-700 flex flex-col">
-          <Button
-            action={() => handleClick('all')}
-            styles="border-b-2 p-2 hover:bg-gray-200 rounded-t-md"
+          <button
+            className="border-b-2 p-2 hover:bg-gray-200 rounded-t-md outline-none"
             type="button"
-            value="All"
-          />
-          <Button
-            action={() => handleClick('completed')}
-            disabled={todoState.completed[0] ? false : true}
-            styles={`border-b-2 p-2  ${
+            onClick={() => handleClick('all')}
+          >
+            All
+          </button>
+          <button
+            className={`border-b-2 p-2 outline-none ${
               todoState.completed[0]
                 ? 'hover:bg-gray-200'
                 : 'text-gray-400 bg-gray-200'
             }`}
+            disabled={todoState.completed[0] ? false : true}
             type="button"
-            value="Completed"
-          />
-          <Button
-            action={() => handleClick('pending')}
-            disabled={todoState.pending[0] ? false : true}
-            styles={`border-b-2 p-2 hover:bg-gray-200  ${
+            onClick={() => handleClick('completed')}
+          >
+            Completed
+          </button>
+          <button
+            className={`border-b-2 p-2 outline-none ${
               todoState.pending[0]
                 ? 'hover:bg-gray-200'
                 : 'text-gray-400 bg-gray-200'
             }`}
+            disabled={todoState.pending[0] ? false : true}
             type="button"
-            value="Pending"
-          />
-          <Button
-            action={logOutFunct}
-            styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md text-red-500"
+            onClick={() => handleClick('pending')}
+          >
+            Pending
+          </button>
+          <button
+            className="border-b-2 p-2 hover:bg-gray-200 outline-none rounded-b-md text-red-500"
             type="button"
-            value="Log out"
-          />
+            onClick={logOutFunct}
+          >
+            Log Out
+          </button>
         </div>
       )}
     </>

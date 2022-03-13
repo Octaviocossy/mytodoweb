@@ -3,7 +3,6 @@ import { FormEvent, useEffect, useState } from 'react';
 import { DB_Todo, Todo } from '../../types/todo';
 import useForm from '../../hooks/useForm';
 import useTodo from '../../hooks/useTodo';
-import Button from '../../ui/controls/Button';
 import Input from '../../ui/form/Input';
 
 interface Props {
@@ -79,20 +78,24 @@ const Form: React.FC<Props> = ({ setModal }) => {
         value={edit[0] ? editTodo.desc : createTodo.desc}
       />
       <div className="flex mt-2 flex-col sm:flex-row">
-        <Button
-          action={closeModal}
-          styles="bg-red-400 w-full text-gray-100 shadow-md rounded-md p-3 max-w-xs w-80 m-auto mb-2 sm:w-full sm:mr-3 sm:mb-0"
+        <button
+          className="bg-red-400 text-gray-100 shadow-md rounded-md p-3 max-w-xs outline-none w-80 m-auto mb-2 sm:w-full sm:mr-3 sm:mb-0"
           type="button"
           value="Close"
-        />
-        <Button
-          disabled={btnblocker}
-          styles={`w-full text-gray-100 shadow-md rounded-md p-3 w-80 m-auto max-w-xs sm:w-full ${
+          onClick={closeModal}
+        >
+          Close
+        </button>
+        <button
+          className={`text-gray-100 shadow-md rounded-md p-3 w-80 m-auto max-w-xs outline-none sm:w-full ${
             !btnblocker ? 'bg-green-400' : 'bg-gray-300'
           }`}
+          disabled={btnblocker}
           type="submit"
           value="Add"
-        />
+        >
+          Add
+        </button>
       </div>
     </form>
   );

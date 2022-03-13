@@ -6,7 +6,6 @@ import useAuthAlert from '../hooks/useAlert';
 import { RegUser } from '../types/auth';
 import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
-import Button from '../ui/controls/Button';
 import Input from '../ui/form/Input';
 import Label from '../ui/form/Label';
 import Alert from '../components/Alert';

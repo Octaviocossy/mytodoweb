@@ -1,7 +1,6 @@
 import { RiDeleteBin6Line, RiCheckLine, RiSubtractLine } from 'react-icons/ri';
 
 import useTodo from '../../hooks/useTodo';
-import Button from '../../ui/controls/Button';
 import { DB_Todo } from '../../types/todo';
 
 interface Props {
@@ -44,20 +43,22 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
         </p>
       </div>
       <div className="flex">
-        <Button
-          action={() => switchState(todo)}
-          styles={`m-4 ml-4 text-3xl text-gray-700 ${
+        <button
+          className={`m-4 ml-4 text-3xl outline-none text-gray-700 ${
             todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
           } mb-0 sm:mb-4`}
           type="button"
-          value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
-        />
-        <Button
-          action={() => deleteTodo(todo._id)}
-          styles="mr-4 text-2xl text-gray-700 hover:text-red-400 mt-4 sm:mt-0 "
+          onClick={() => switchState(todo)}
+        >
+          {todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
+        </button>
+        <button
+          className="mr-4 text-2xl text-gray-700 outline-none hover:text-red-400 mt-4 sm:mt-0 "
           type="button"
-          value={<RiDeleteBin6Line />}
-        />
+          onClick={() => deleteTodo(todo._id)}
+        >
+          <RiDeleteBin6Line />
+        </button>
       </div>
     </li>
   );
