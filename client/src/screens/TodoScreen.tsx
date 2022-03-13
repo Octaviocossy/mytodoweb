@@ -14,20 +14,15 @@ const TodoScreen = () => {
   const [spinnx, setSpinnX] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const { getTodos, todoState } = useTodo();
-  const { authUser, authState } = useAuth();
+  const { authUser } = useAuth();
 
   useEffect(() => {
-    authUser();
+    (async () => {
+      await authUser();
+      getTodos();
+      setSpinnX(true);
+    })();
   }, []);
-
-  useEffect(() => {
-    if (authState.authenticated) {
-      (async () => {
-        await getTodos();
-        setSpinnX(true);
-      })();
-    }
-  }, [authState.authenticated]);
 
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
