@@ -18,7 +18,7 @@ const TodoList: React.FC<Props> = ({ filterstate, setModal }) => {
   }, [todos]);
 
   return (
-    <ul className="max-w-lg w-full">
+    <ul className={`max-w-lg w-full mt-14 ${filterstate !== 'all' && 'mb-14'}`}>
       {filterstate === 'all' &&
         todos.map((todo) => (
           <TodoItem key={todo._id} setModal={setModal} todo={todo} />

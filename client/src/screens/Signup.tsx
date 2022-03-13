@@ -1,7 +1,8 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { RiLoader4Line } from 'react-icons/ri';
 
-import useAuthAlert from '../hooks/useAuthAlert';
+import useAuthAlert from '../hooks/useAlert';
 import { RegUser } from '../types/auth';
 import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
@@ -19,6 +20,7 @@ const initialState: RegUser = {
 const Signup = () => {
   const [data, handleChange] = useForm<RegUser>(initialState);
   const { regUser, authState, authUser, removeAllAlerts } = useAuth();
+  const [spinn, setSpinn] = useState<boolean>(false);
   const {
     msgname,
     msgdefault,
@@ -28,11 +30,13 @@ const Signup = () => {
     setAlertContent,
     filtTypeOfError,
     resetfieldError,
+    alertcontent,
   } = useAuthAlert();
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinn(true);
     resetAlert();
     resetfieldError();
 
@@ -86,6 +90,12 @@ const Signup = () => {
   }, []);
 
   useEffect(() => {
+    if (alertcontent[0]) {
+      setSpinn(false);
+    }
+  }, [alertcontent]);
+
+  useEffect(() => {
     if (authState.authenticated) navigate('/todolist');
   }, [authState.authenticated]);
 
@@ -122,11 +132,16 @@ const Signup = () => {
           styles={'bg-gray-100 my-3'}
           type={'password'}
         />
-        <Button
-          styles="p-3 mt-5 outline-none shadow-md rounded-md mb-3 text-white bg-green-400 text-lg"
+        <button
+          className="p-3 mt-5 outline-none shadow-md rounded-md mb-3 text-white bg-green-400"
           type="submit"
-          value="Submit"
-        />
+        >
+          {spinn ? (
+            <RiLoader4Line className="text-2xl m-auto animate-spin" />
+          ) : (
+            'Sign Up'
+          )}
+        </button>
       </form>
       <Link
         className="text-gray-500 mt-3 hover:underline"

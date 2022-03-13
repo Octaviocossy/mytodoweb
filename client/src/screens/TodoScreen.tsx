@@ -38,14 +38,20 @@ const TodoScreen = () => {
         id={'main'}
       >
         {todoState.msg && <Alert title={todoState.msg} />}
-        <TodoList filterstate={filterstate} setModal={setModal} />
-        <button
-          className="text-4xl text-gray-700 mt-4 hover:text-yellow-500 outline-none"
-          type="button"
-          onClick={() => setModal((state) => !state)}
-        >
-          <RiAddFill className={`${!spinnx && 'animate-spin text-pink-500'}`} />
-        </button>
+        {todoState.todos[0] && (
+          <TodoList filterstate={filterstate} setModal={setModal} />
+        )}
+        {filterstate === 'all' && (
+          <button
+            className="text-4xl text-gray-700 mt-4 mb-14 hover:text-yellow-500 outline-none"
+            type="button"
+            onClick={() => setModal((state) => !state)}
+          >
+            <RiAddFill
+              className={`${!spinnx && 'animate-spin text-pink-500'}`}
+            />
+          </button>
+        )}
       </div>
       {modal && <Modal component={<Form setModal={setModal} />} />}
     </>

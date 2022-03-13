@@ -1,11 +1,11 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { RiLoader4Line } from 'react-icons/ri';
 
-import useAuthAlert from '../hooks/useAuthAlert';
+import useAuthAlert from '../hooks/useAlert';
 import { LogUser } from '../types/auth';
 import useForm from '../hooks/useForm';
 import useAuth from '../hooks/useAuth';
-import Button from '../ui/controls/Button';
 import Input from '../ui/form/Input';
 import Label from '../ui/form/Label';
 import Alert from '../components/Alert';
@@ -16,8 +16,9 @@ const initialState: LogUser = {
 };
 
 const Signin = () => {
-  const [data, handleChange] = useForm<LogUser>(initialState);
   const { authState, logUser, authUser, removeAllAlerts } = useAuth();
+  const [data, handleChange] = useForm<LogUser>(initialState);
+  const [spinn, setSpinn] = useState<boolean>(false);
   const {
     resetfieldError,
     fieldError,
@@ -26,11 +27,13 @@ const Signin = () => {
     msgpassword,
     setAlertContent,
     filtTypeOfError,
+    alertcontent,
   } = useAuthAlert();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSpinn(true);
     resetAlert();
     resetfieldError();
 
@@ -68,12 +71,20 @@ const Signin = () => {
   }, []);
 
   useEffect(() => {
-    if (authState.authenticated) navigate('/todolist');
+    if (alertcontent[0]) {
+      setSpinn(false);
+    }
+  }, [alertcontent]);
+
+  useEffect(() => {
+    if (authState.authenticated) {
+      navigate('/todolist');
+    }
   }, [authState.authenticated]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
-      <p className="text-5xl font-semibold text-gray-700">Sign In</p>
+      <p className="text-5xl font-semibold text-gray-700">Log In</p>
       <form className="flex flex-col mt-12" onSubmit={handleSubmit}>
         {msgdefault && (
           <Alert title={filtTypeOfError('default')} type={'alert'} />
@@ -95,11 +106,16 @@ const Signin = () => {
           styles={'bg-gray-100 my-3'}
           type={'password'}
         />
-        <Button
-          styles="p-3 mt-5 outline-none shadow-md rounded-md mb-3 text-white bg-green-400"
+        <button
+          className="p-3 mt-5 outline-none shadow-md rounded-md mb-3 text-white bg-green-400"
           type="submit"
-          value="Submit"
-        />
+        >
+          {spinn ? (
+            <RiLoader4Line className="text-2xl m-auto animate-spin" />
+          ) : (
+            'Log In'
+          )}
+        </button>
       </form>
       <Link
         className="text-gray-500 mt-3 hover:underline"

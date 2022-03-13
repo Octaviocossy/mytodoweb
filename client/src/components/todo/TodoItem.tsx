@@ -24,10 +24,10 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
 
   return (
     <li
-      className="flex bg-gray-100 mb-4 p-6 shadow-lg rounded-md items-center justify-center max-w-xs sm:max-w-none m-auto"
+      className="flex bg-gray-100 mb-4 p-6 shadow-lg rounded-md items-center justify-center max-w-xs flex-col sm:flex-row sm:max-w-none m-auto"
       onDoubleClick={handleForm}
     >
-      <div className="flex-1 ml-4">
+      <div className="flex-1 sm:ml-4">
         <p
           className={`text-2xl font-semibold text-gray-700 cursor-default ${
             todo.completed && 'line-through'
@@ -43,20 +43,22 @@ const TodoItem: React.FC<Props> = ({ todo, setModal }) => {
           {todo.desc}
         </p>
       </div>
-      <Button
-        action={() => switchState(todo)}
-        styles={`m-4 ml-4 text-3xl text-gray-700 ${
-          todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
-        }`}
-        type="button"
-        value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
-      />
-      <Button
-        action={() => deleteTodo(todo._id)}
-        styles="mr-4 text-2xl text-gray-700 hover:text-red-400"
-        type="button"
-        value={<RiDeleteBin6Line />}
-      />
+      <div className="flex">
+        <Button
+          action={() => switchState(todo)}
+          styles={`m-4 ml-4 text-3xl text-gray-700 ${
+            todo.completed ? 'hover:text-red-400' : 'hover:text-green-400'
+          } mb-0 sm:mb-4`}
+          type="button"
+          value={todo.completed ? <RiSubtractLine /> : <RiCheckLine />}
+        />
+        <Button
+          action={() => deleteTodo(todo._id)}
+          styles="mr-4 text-2xl text-gray-700 hover:text-red-400 mt-4 sm:mt-0 "
+          type="button"
+          value={<RiDeleteBin6Line />}
+        />
+      </div>
     </li>
   );
 };

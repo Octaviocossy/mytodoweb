@@ -63,6 +63,7 @@ const TodoProvider: React.FC<ProviderProps> = ({ children }) => {
 
     if (res.type === 'success') {
       dispatch({ type: 'deleteTodo', payload: res.value });
+      filter();
 
       return;
     }

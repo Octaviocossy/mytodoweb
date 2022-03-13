@@ -4,7 +4,7 @@ import AuthProvider from './context/auth/AuthProvider';
 import TodoProvider from './context/todo/TodoProvider';
 import PrivateRoute from './routes/PrivateRoute';
 import TodoScreen from './screens/TodoScreen';
-import Signin from './screens/Signin';
+import Login from './screens/Login';
 import Signup from './screens/Signup';
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
       <TodoProvider>
         <BrowserRouter>
           <Routes>
-            <Route element={<Signin />} path="/" />
+            <Route element={<Login />} path="/" />
             <Route element={<Signup />} path="/signup" />
             <Route
               element={

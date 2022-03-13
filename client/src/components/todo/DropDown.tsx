@@ -11,8 +11,8 @@ interface Props {
 
 const DropDown: React.FC<Props> = ({ setFilterState }) => {
   const [togglelist, setToggleList] = useState<boolean>(false);
+  const { deleteAllTodos, todoState } = useTodo();
   const { logOut } = useAuth();
-  const { deleteAllTodos } = useTodo();
 
   const handleClick = (text: string): void => {
     setFilterState(text);
@@ -51,13 +51,23 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
           />
           <Button
             action={() => handleClick('completed')}
-            styles="border-b-2 p-2 hover:bg-gray-200"
+            disabled={todoState.completed[0] ? false : true}
+            styles={`border-b-2 p-2  ${
+              todoState.completed[0]
+                ? 'hover:bg-gray-200'
+                : 'text-gray-400 bg-gray-200'
+            }`}
             type="button"
             value="Completed"
           />
           <Button
             action={() => handleClick('pending')}
-            styles="border-b-2 p-2 hover:bg-gray-200 rounded-b-md"
+            disabled={todoState.pending[0] ? false : true}
+            styles={`border-b-2 p-2 hover:bg-gray-200  ${
+              todoState.pending[0]
+                ? 'hover:bg-gray-200'
+                : 'text-gray-400 bg-gray-200'
+            }`}
             type="button"
             value="Pending"
           />
