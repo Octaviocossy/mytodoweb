@@ -35,7 +35,7 @@ const DropDown: React.FC<Props> = ({ setFilterState }) => {
   return (
     <>
       <button
-        className="bg-gray-100 absolute top-3 right-3 cursor-pointer text-2xl p-1 rounded-md shadow-md text-gray-700 hover:text-yellow-500"
+        className="bg-gray-100 absolute top-3 right-3 cursor-pointer text-2xl p-1 rounded-md outline-none shadow-md text-gray-700 hover:text-yellow-500"
         type="button"
         onClick={() => setToggleList((state) => !state)}
       >
